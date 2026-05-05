@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+aralmac/ficheros/*
+aralmac/programas/*
+aralmac/estado/*
+/tmp/fifo_*
+.vscode/
