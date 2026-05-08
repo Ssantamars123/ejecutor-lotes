@@ -409,9 +409,11 @@ Respuesta:
 }
 ```
 
+**Restricciones:** `id_fichero_entrada` e `id_fichero_salida` son **obligatorios**. Cada proceso de lotes tiene exactamente un fichero de entrada (stdin) y un fichero de salida (stdout).
+
 Implementación interna:
-1. Verificar que `id_programa` exista en `aralmac/programas/`.
-2. Verificar que los ficheros de entrada/salida existan en `aralmac/ficheros/`.
+1. Verificar que `id_programa`, `id_fichero_entrada` e `id_fichero_salida` estén presentes.
+2. Verificar que el programa y los ficheros existan en `aralmac/`.
 3. `fork()` → proceso hijo:
    - Redirigir `stdin` al fichero de entrada.
    - Redirigir `stdout` al fichero de salida.

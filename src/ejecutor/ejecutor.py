@@ -83,27 +83,26 @@ class Ejecutor:
 
         if not id_programa:
             return respuesta_error(peticion['id'], "Falta id_programa")
+        if not id_fichero_entrada:
+            return respuesta_error(peticion['id'], "Falta id_fichero_entrada (obligatorio)")
+        if not id_fichero_salida:
+            return respuesta_error(peticion['id'], "Falta id_fichero_salida (obligatorio)")
 
         # Leer programa
         programa = self.leer_programa(id_programa)
         if not programa:
             return respuesta_error(peticion['id'], f"El programa {id_programa} no existe")
 
-        # Verificar ficheros si se proporcionan
-        stdin_file = None
-        stdout_file = None
+        ruta_entrada = self.ruta_fichero(id_fichero_entrada)
+        if not os.path.exists(ruta_entrada):
+            return respuesta_error(peticion['id'], f"El fichero de entrada {id_fichero_entrada} no existe")
 
-        if id_fichero_entrada:
-            ruta_entrada = self.ruta_fichero(id_fichero_entrada)
-            if not os.path.exists(ruta_entrada):
-                return respuesta_error(peticion['id'], f"El fichero {id_fichero_entrada} no existe")
-            stdin_file = open(ruta_entrada, 'r')
+        ruta_salida = self.ruta_fichero(id_fichero_salida)
+        if not os.path.exists(ruta_salida):
+            return respuesta_error(peticion['id'], f"El fichero de salida {id_fichero_salida} no existe")
 
-        if id_fichero_salida:
-            ruta_salida = self.ruta_fichero(id_fichero_salida)
-            if not os.path.exists(ruta_salida):
-                return respuesta_error(peticion['id'], f"El fichero {id_fichero_salida} no existe")
-            stdout_file = open(ruta_salida, 'w')
+        stdin_file = open(ruta_entrada, 'r')
+        stdout_file = open(ruta_salida, 'w')
 
         # Construir comando
         ejecutable = programa['ejecutable']
